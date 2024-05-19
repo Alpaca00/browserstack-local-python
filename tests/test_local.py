@@ -22,7 +22,7 @@ class TestLocal(unittest.TestCase):
     self.local.start()
     self.assertTrue(self.local.isRunning())
     try:
-      self.local2 = Local(os.environ['BROWSERSTACK_ACCESS_KEY'])
+      self.local2 = LocalSingleton(os.environ['BROWSERSTACK_ACCESS_KEY'])
       self.local2.start()
     except BrowserStackLocalError as e:
       self.assertRegex(str(e), r'Either another browserstack local client is running on your machine or some server is listening on port 4569[10]')
@@ -86,5 +86,5 @@ class TestLocal(unittest.TestCase):
     self.assertIn('mytunnel', self.local._generate_cmd())
 
   def test_context_manager(self):
-    with Local('BROWSERSTACK_ACCESS_KEY') as local:
+    with LocalSingleton('BROWSERSTACK_ACCESS_KEY') as local:
       self.assertNotEqual(local.proc.pid, 0)
