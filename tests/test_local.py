@@ -1,9 +1,9 @@
 import unittest, time, os, subprocess
-from browserstack.local import Local, BrowserStackLocalError
+from browserstack.local import LocalSingleton, BrowserStackLocalError
 
 class TestLocal(unittest.TestCase):
   def setUp(self):
-    self.local = Local(os.environ['BROWSERSTACK_ACCESS_KEY'])
+    self.local = LocalSingleton(os.environ['BROWSERSTACK_ACCESS_KEY'])
 
   def tearDown(self):
     self.local.stop()
